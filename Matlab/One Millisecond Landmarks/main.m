@@ -1,3 +1,43 @@
+close all; clc; clear all;
+
+%%%%%%% Testing Gradient Descent Function
+load accidents
+x =hwydata(:,14); % Must be Nomalized
+y =hwydata(:,4);
+format long
+x =normalize(x);
+y =normalize(y);
+% y =ax+b ->
+x = [x ones(length(x), 1)];
+
+
+%% Gradient Descent
+weights = zeros(2,1);%a = weights(1,1); b = weights(2,1); 
+learning_rate = 0.1;
+iteration=1000;
+[weight_updated, cost_history]= GradientDescent_LossMSE_UpdateWeight(x,y,learning_rate,iteration,weights);
+
+%% Plot Data
+subplot(2, 1, 1);
+scatter(x(:,1),y);
+hold on;
+
+%% Plot Estimated Regression Line
+a = x\y; % y =ax+b
+y_estimated = a'*x';
+plot(x(:,1),y_estimated,'color','green', 'LineWidth',10);
+
+%% Plot Results
+y_estimated = weight_updated'*x';
+plot(x(:,1),y_estimated,'color','blue');
+
+% Plotting our cost function on a different figure to see how we did
+subplot(2, 1, 2);
+plot(cost_history, 1:iteration);
+
+
+
+
 %% Read files
 close all; clc; clear all;
 drawFaces =false;
